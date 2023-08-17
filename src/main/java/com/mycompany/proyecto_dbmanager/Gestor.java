@@ -9,6 +9,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
@@ -33,7 +35,7 @@ public class Gestor extends javax.swing.JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        Gestor_jDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        jFrame_Gestor.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         url = "jdbc:mysql://localhost:3306/connections";
         user = "root";
@@ -145,26 +147,21 @@ public class Gestor extends javax.swing.JFrame {
                     indexStatement.close();
 
                     // Obtener las llaves foráneas
-                    Statement fkStatement = connection.createStatement();
-                    ResultSet fkResultSet = fkStatement.executeQuery("SELECT\n"
-                            + "  kcu.TABLE_NAME,\n"
-                            + "  kcu.COLUMN_NAME,\n"
-                            + "  kcu.REFERENCED_TABLE_NAME,\n"
-                            + "  kcu.REFERENCED_COLUMN_NAME\n"
+                    Statement fkStatement = connection.createStatement();      
+                     ResultSet fkResultSet = fkStatement.executeQuery("SELECT\n"
+                            + "    CONSTRAINT_NAME,\n"
+                            + "    COLUMN_NAME,\n"
+                            + "    REFERENCED_TABLE_NAME,\n"
+                            + "    REFERENCED_COLUMN_NAME\n"
                             + "FROM\n"
-                            + "  information_schema.TABLE_CONSTRAINTS AS tc\n"
-                            + "  JOIN information_schema.KEY_COLUMN_USAGE AS kcu\n"
-                            + "    ON tc.CONSTRAINT_NAME = kcu.CONSTRAINT_NAME\n"
+                            + "    INFORMATION_SCHEMA.KEY_COLUMN_USAGE\n"
                             + "WHERE\n"
-                            + "  tc.CONSTRAINT_TYPE = 'FOREIGN KEY'\n"
-                            + "  AND tc.TABLE_NAME = '" + tableName + "'\n"
-                            + "  AND tc.TABLE_SCHEMA = '" + databaseName + "'");
+                            + "    TABLE_SCHEMA = '" + databaseName + "' AND\n"
+                            + "    TABLE_NAME = '" + tableName + "' AND\n"
+                            + "    REFERENCED_TABLE_NAME IS NOT NULL;");
                     while (fkResultSet.next()) {
-                        String columnName = fkResultSet.getString("COLUMN_NAME");
-                        String referencedTableName = fkResultSet.getString("REFERENCED_TABLE_NAME");
-                        String referencedColumnName = fkResultSet.getString("REFERENCED_COLUMN_NAME");
-                        String fkInfo = columnName + " -> " + referencedTableName + "(" + referencedColumnName + ")";
-                        keysNode.add(new DefaultMutableTreeNode(fkInfo));
+                        String columnName = fkResultSet.getString("CONSTRAINT_NAME");
+                        keysNode.add(new DefaultMutableTreeNode(columnName));
                     }
                     fkResultSet.close();
                     fkStatement.close();
@@ -537,16 +534,16 @@ public class Gestor extends javax.swing.JFrame {
 
         jPopupMenu_CreateConnection = new javax.swing.JPopupMenu();
         Btn_CreateConnection = new javax.swing.JMenuItem();
-        Gestor_jDialog = new javax.swing.JDialog();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jFrame_Gestor = new javax.swing.JFrame();
+        jScrollPane12 = new javax.swing.JScrollPane();
         jTree = new javax.swing.JTree();
-        jScrollPane5 = new javax.swing.JScrollPane();
+        jScrollPane13 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        jButton16 = new javax.swing.JButton();
+        jButton17 = new javax.swing.JButton();
+        jMenuBar2 = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
         jPopupMenu_NewSchema = new javax.swing.JPopupMenu();
         Btn_NewSchema = new javax.swing.JMenuItem();
         ValidarUser = new javax.swing.JDialog();
@@ -678,6 +675,46 @@ public class Gestor extends javax.swing.JFrame {
         CreateTrigger = new javax.swing.JMenuItem();
         DropTrigger = new javax.swing.JMenuItem();
         AlterTrigger = new javax.swing.JMenuItem();
+        jPopupMenu_Index = new javax.swing.JPopupMenu();
+        CreateIndex = new javax.swing.JMenuItem();
+        DropIndex = new javax.swing.JMenuItem();
+        AlterIndex = new javax.swing.JMenuItem();
+        jPopupMenu_Keys = new javax.swing.JPopupMenu();
+        CreateKeys = new javax.swing.JMenuItem();
+        DropKeys = new javax.swing.JMenuItem();
+        AlterKeys = new javax.swing.JMenuItem();
+        Index = new javax.swing.JDialog();
+        jLabel30 = new javax.swing.JLabel();
+        jTabbedPane4 = new javax.swing.JTabbedPane();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel31 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel33 = new javax.swing.JLabel();
+        Apply = new javax.swing.JButton();
+        Cancel = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jPanel13 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTextArea4 = new javax.swing.JTextArea();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        ForeignKey = new javax.swing.JDialog();
+        jLabel35 = new javax.swing.JLabel();
+        jTabbedPane5 = new javax.swing.JTabbedPane();
+        jPanel14 = new javax.swing.JPanel();
+        jScrollPane14 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
+        jLabel36 = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
+        jTextField6 = new javax.swing.JTextField();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jPanel15 = new javax.swing.JPanel();
+        jScrollPane15 = new javax.swing.JScrollPane();
+        jTextArea5 = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -713,7 +750,7 @@ public class Gestor extends javax.swing.JFrame {
                 jTreeMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTree);
+        jScrollPane12.setViewportView(jTree);
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -723,65 +760,65 @@ public class Gestor extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane5.setViewportView(jTable2);
+        jScrollPane13.setViewportView(jTable2);
 
-        jButton9.setBackground(new java.awt.Color(153, 255, 153));
-        jButton9.setText("+");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        jButton16.setBackground(new java.awt.Color(153, 255, 153));
+        jButton16.setText("+");
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                jButton16ActionPerformed(evt);
             }
         });
 
-        jButton10.setBackground(new java.awt.Color(255, 102, 102));
-        jButton10.setText("x");
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
+        jButton17.setBackground(new java.awt.Color(255, 102, 102));
+        jButton17.setText("x");
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
+                jButton17ActionPerformed(evt);
             }
         });
 
-        jMenu1.setText("Disconnect");
-        jMenuBar1.add(jMenu1);
+        jMenu3.setText("Disconnect");
+        jMenuBar2.add(jMenu3);
 
-        jMenu2.setText("Users");
-        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+        jMenu4.setText("Users");
+        jMenu4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu2MouseClicked(evt);
+                jMenu4MouseClicked(evt);
             }
         });
-        jMenuBar1.add(jMenu2);
+        jMenuBar2.add(jMenu4);
 
-        Gestor_jDialog.setJMenuBar(jMenuBar1);
+        jFrame_Gestor.setJMenuBar(jMenuBar2);
 
-        javax.swing.GroupLayout Gestor_jDialogLayout = new javax.swing.GroupLayout(Gestor_jDialog.getContentPane());
-        Gestor_jDialog.getContentPane().setLayout(Gestor_jDialogLayout);
-        Gestor_jDialogLayout.setHorizontalGroup(
-            Gestor_jDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Gestor_jDialogLayout.createSequentialGroup()
+        javax.swing.GroupLayout jFrame_GestorLayout = new javax.swing.GroupLayout(jFrame_Gestor.getContentPane());
+        jFrame_Gestor.getContentPane().setLayout(jFrame_GestorLayout);
+        jFrame_GestorLayout.setHorizontalGroup(
+            jFrame_GestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jFrame_GestorLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(Gestor_jDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(Gestor_jDialogLayout.createSequentialGroup()
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jFrame_GestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jFrame_GestorLayout.createSequentialGroup()
+                        .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1000, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 1000, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
-        Gestor_jDialogLayout.setVerticalGroup(
-            Gestor_jDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Gestor_jDialogLayout.createSequentialGroup()
+        jFrame_GestorLayout.setVerticalGroup(
+            jFrame_GestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jFrame_GestorLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(Gestor_jDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(Gestor_jDialogLayout.createSequentialGroup()
-                        .addGroup(Gestor_jDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton9)
-                            .addComponent(jButton10))
+                .addGroup(jFrame_GestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jFrame_GestorLayout.createSequentialGroup()
+                        .addGroup(jFrame_GestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton16)
+                            .addComponent(jButton17))
                         .addGap(7, 7, 7)
-                        .addComponent(jScrollPane5)))
+                        .addComponent(jScrollPane13)))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -1149,6 +1186,11 @@ public class Gestor extends javax.swing.JFrame {
         jPopupMenu_View.add(DropView);
 
         AlterView.setText("Alter View");
+        AlterView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AlterViewActionPerformed(evt);
+            }
+        });
         jPopupMenu_View.add(AlterView);
 
         CreateProcedure.setText("Create Stored Procedure");
@@ -1168,6 +1210,11 @@ public class Gestor extends javax.swing.JFrame {
         jPopupMenu_Procedure.add(DropProcedure);
 
         AlterProcedure.setText("Alter Stored Procedure");
+        AlterProcedure.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AlterProcedureActionPerformed(evt);
+            }
+        });
         jPopupMenu_Procedure.add(AlterProcedure);
 
         CreateFunction.setText("Create Function");
@@ -1187,6 +1234,11 @@ public class Gestor extends javax.swing.JFrame {
         jPopupMenu_Function.add(DropFunction);
 
         AlterFunction.setText("Alter Function");
+        AlterFunction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AlterFunctionActionPerformed(evt);
+            }
+        });
         jPopupMenu_Function.add(AlterFunction);
 
         Users.setModal(true);
@@ -1440,6 +1492,7 @@ public class Gestor extends javax.swing.JFrame {
         jScrollPane7.setViewportView(jTextArea1);
 
         jLabel25.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel25.setText("New Procedure");
 
         javax.swing.GroupLayout ProcedureLayout = new javax.swing.GroupLayout(Procedure.getContentPane());
@@ -1447,23 +1500,19 @@ public class Gestor extends javax.swing.JFrame {
         ProcedureLayout.setHorizontalGroup(
             ProcedureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ProcedureLayout.createSequentialGroup()
-                .addGroup(ProcedureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(80, 80, 80)
+                .addGroup(ProcedureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton13)
                     .addGroup(ProcedureLayout.createSequentialGroup()
-                        .addGap(309, 309, 309)
-                        .addComponent(jLabel25))
-                    .addGroup(ProcedureLayout.createSequentialGroup()
-                        .addGap(80, 80, 80)
                         .addGroup(ProcedureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton13)
-                            .addGroup(ProcedureLayout.createSequentialGroup()
-                                .addGroup(ProcedureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel21)
-                                    .addComponent(jLabel20))
-                                .addGap(32, 32, 32)
-                                .addGroup(ProcedureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField3)
-                                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE))))))
+                            .addComponent(jLabel21)
+                            .addComponent(jLabel20))
+                        .addGap(32, 32, 32)
+                        .addGroup(ProcedureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField3)
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE))))
                 .addContainerGap(95, Short.MAX_VALUE))
+            .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         ProcedureLayout.setVerticalGroup(
             ProcedureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1502,50 +1551,48 @@ public class Gestor extends javax.swing.JFrame {
         jScrollPane8.setViewportView(jTextArea2);
 
         jLabel24.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel24.setText("New Function");
 
         javax.swing.GroupLayout FunctionLayout = new javax.swing.GroupLayout(Function.getContentPane());
         Function.getContentPane().setLayout(FunctionLayout);
         FunctionLayout.setHorizontalGroup(
             FunctionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(FunctionLayout.createSequentialGroup()
-                .addGap(80, 80, 80)
+            .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FunctionLayout.createSequentialGroup()
                 .addGroup(FunctionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton15)
-                    .addGroup(FunctionLayout.createSequentialGroup()
-                        .addGroup(FunctionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, FunctionLayout.createSequentialGroup()
+                        .addGap(74, 74, 74)
+                        .addGroup(FunctionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel23)
                             .addComponent(jLabel22))
-                        .addGap(32, 32, 32)
-                        .addGroup(FunctionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGap(27, 27, 27)
+                        .addGroup(FunctionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField4)
-                            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE))))
-                .addContainerGap(95, Short.MAX_VALUE))
-            .addGroup(FunctionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FunctionLayout.createSequentialGroup()
-                    .addContainerGap(310, Short.MAX_VALUE)
-                    .addComponent(jLabel24)
-                    .addContainerGap(309, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)))
+                    .addGroup(FunctionLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton15)))
+                .addGap(56, 56, 56))
         );
         FunctionLayout.setVerticalGroup(
             FunctionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(FunctionLayout.createSequentialGroup()
-                .addGap(75, 75, 75)
+                .addGap(27, 27, 27)
+                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
                 .addGroup(FunctionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel22))
                 .addGap(47, 47, 47)
                 .addGroup(FunctionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel23)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addGroup(FunctionLayout.createSequentialGroup()
+                        .addComponent(jLabel23)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton15)
-                .addContainerGap(22, Short.MAX_VALUE))
-            .addGroup(FunctionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FunctionLayout.createSequentialGroup()
-                    .addContainerGap(26, Short.MAX_VALUE)
-                    .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(544, Short.MAX_VALUE)))
+                .addGap(29, 29, 29))
         );
 
         jLabel26.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
@@ -1555,6 +1602,7 @@ public class Gestor extends javax.swing.JFrame {
         jLabel27.setText("Name:");
 
         jLabel28.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel28.setText("Create View");
 
         jLabel_nameSchema.setText("_");
@@ -1589,6 +1637,7 @@ public class Gestor extends javax.swing.JFrame {
 
         jTabbedPane3.addTab("SQL Query", jPanel10);
 
+        jTextArea_DDL.setEditable(false);
         jTextArea_DDL.setColumns(20);
         jTextArea_DDL.setRows(5);
         jScrollPane10.setViewportView(jTextArea_DDL);
@@ -1623,10 +1672,6 @@ public class Gestor extends javax.swing.JFrame {
         View.getContentPane().setLayout(ViewLayout);
         ViewLayout.setHorizontalGroup(
             ViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ViewLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel28)
-                .addGap(226, 226, 226))
             .addGroup(ViewLayout.createSequentialGroup()
                 .addGap(56, 56, 56)
                 .addGroup(ViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1642,6 +1687,7 @@ public class Gestor extends javax.swing.JFrame {
                         .addComponent(jButton14)
                         .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(42, 42, 42))
+            .addComponent(jLabel28, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         ViewLayout.setVerticalGroup(
             ViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1760,10 +1806,9 @@ public class Gestor extends javax.swing.JFrame {
                         .addGap(46, 46, 46)
                         .addComponent(jLabel29)
                         .addGap(42, 42, 42)
-                        .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TriggersLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(TriggersLayout.createSequentialGroup()
+                        .addGap(147, 147, 147)
                         .addComponent(btn_beforeInsert)
                         .addGap(32, 32, 32)
                         .addComponent(btn_afterInsert)
@@ -1774,8 +1819,8 @@ public class Gestor extends javax.swing.JFrame {
                         .addGap(32, 32, 32)
                         .addComponent(btn_beforeDelete)
                         .addGap(32, 32, 32)
-                        .addComponent(btn_afterDelete)
-                        .addGap(70, 70, 70)))
+                        .addComponent(btn_afterDelete)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(TriggersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton23)
                     .addComponent(jButton22))
@@ -1799,7 +1844,362 @@ public class Gestor extends javax.swing.JFrame {
         jPopupMenu_Triggers.add(DropTrigger);
 
         AlterTrigger.setText("Alter Trigger");
+        AlterTrigger.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AlterTriggerActionPerformed(evt);
+            }
+        });
         jPopupMenu_Triggers.add(AlterTrigger);
+
+        CreateIndex.setText("Create Index");
+        CreateIndex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreateIndexActionPerformed(evt);
+            }
+        });
+        jPopupMenu_Index.add(CreateIndex);
+
+        DropIndex.setText("Drop Index");
+        DropIndex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DropIndexActionPerformed(evt);
+            }
+        });
+        jPopupMenu_Index.add(DropIndex);
+
+        AlterIndex.setText("Alter Index");
+        AlterIndex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AlterIndexActionPerformed(evt);
+            }
+        });
+        jPopupMenu_Index.add(AlterIndex);
+
+        CreateKeys.setText("Create Foreign Key");
+        CreateKeys.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreateKeysActionPerformed(evt);
+            }
+        });
+        jPopupMenu_Keys.add(CreateKeys);
+
+        DropKeys.setText("Drop Foreign Key");
+        DropKeys.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DropKeysActionPerformed(evt);
+            }
+        });
+        jPopupMenu_Keys.add(DropKeys);
+
+        AlterKeys.setText("Alter Foreign Key");
+        AlterKeys.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AlterKeysActionPerformed(evt);
+            }
+        });
+        jPopupMenu_Keys.add(AlterKeys);
+
+        jLabel30.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        jLabel30.setText("Table name:");
+
+        jTabbedPane4.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane4StateChanged(evt);
+            }
+        });
+
+        jLabel31.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        jLabel31.setText("Index name:");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "INDEX", "UNIQUE", "FULLTEXT", "SPATIAL", "PRIMARY" }));
+
+        jLabel33.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        jLabel33.setText("Type:");
+
+        Apply.setText("Apply");
+        Apply.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ApplyMouseClicked(evt);
+            }
+        });
+
+        Cancel.setText("Cancel");
+        Cancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CancelMouseClicked(evt);
+            }
+        });
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Select", "Column", "Order"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable3);
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                .addContainerGap(30, Short.MAX_VALUE)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addComponent(jLabel31)
+                        .addGap(20, 20, 20)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel33)
+                        .addGap(18, 18, 18)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addComponent(Apply)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Cancel))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel31)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel33))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Apply)
+                    .addComponent(Cancel))
+                .addGap(27, 27, 27))
+        );
+
+        jTabbedPane4.addTab("Definition", jPanel12);
+
+        jTextArea4.setEditable(false);
+        jTextArea4.setColumns(20);
+        jTextArea4.setRows(5);
+        jScrollPane5.setViewportView(jTextArea4);
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                .addContainerGap(48, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(48, Short.MAX_VALUE))
+        );
+
+        jTabbedPane4.addTab("DDL", jPanel13);
+
+        jLabel32.setText("-");
+
+        jLabel34.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        jLabel34.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel34.setText("Create View");
+
+        javax.swing.GroupLayout IndexLayout = new javax.swing.GroupLayout(Index.getContentPane());
+        Index.getContentPane().setLayout(IndexLayout);
+        IndexLayout.setHorizontalGroup(
+            IndexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(IndexLayout.createSequentialGroup()
+                .addGap(64, 64, 64)
+                .addGroup(IndexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 770, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(IndexLayout.createSequentialGroup()
+                        .addComponent(jLabel30)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(66, Short.MAX_VALUE))
+            .addComponent(jLabel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        IndexLayout.setVerticalGroup(
+            IndexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(IndexLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(jLabel34)
+                .addGap(29, 29, 29)
+                .addGroup(IndexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel30)
+                    .addComponent(jLabel32))
+                .addGap(31, 31, 31)
+                .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
+
+        jLabel35.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        jLabel35.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel35.setText("New Foreign Key");
+
+        jTabbedPane5.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane5StateChanged(evt);
+            }
+        });
+
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Select", "Column", "Referenced Column"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane14.setViewportView(jTable4);
+
+        jLabel36.setText("Foreign Key Name:");
+
+        jLabel37.setText("Referenced table:");
+
+        jComboBox2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox2ItemStateChanged(evt);
+            }
+        });
+
+        jButton9.setText("Apply");
+        jButton9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton9MouseClicked(evt);
+            }
+        });
+
+        jButton10.setText("Cancel");
+        jButton10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton10MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(jButton9)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton10))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(jLabel36)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel37)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(32, Short.MAX_VALUE))
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel36)
+                    .addComponent(jLabel37)
+                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton9)
+                    .addComponent(jButton10))
+                .addGap(21, 21, 21))
+        );
+
+        jTabbedPane5.addTab("Properties", jPanel14);
+
+        jTextArea5.setEditable(false);
+        jTextArea5.setColumns(20);
+        jTextArea5.setRows(5);
+        jScrollPane15.setViewportView(jTextArea5);
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+
+        jTabbedPane5.addTab("DDL", jPanel15);
+
+        javax.swing.GroupLayout ForeignKeyLayout = new javax.swing.GroupLayout(ForeignKey.getContentPane());
+        ForeignKey.getContentPane().setLayout(ForeignKeyLayout);
+        ForeignKeyLayout.setHorizontalGroup(
+            ForeignKeyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ForeignKeyLayout.createSequentialGroup()
+                .addContainerGap(38, Short.MAX_VALUE)
+                .addComponent(jTabbedPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 760, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
+        );
+        ForeignKeyLayout.setVerticalGroup(
+            ForeignKeyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ForeignKeyLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(jLabel35)
+                .addGap(27, 27, 27)
+                .addComponent(jTabbedPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -1983,112 +2383,6 @@ public class Gestor extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTreeMouseClicked
-
-        if (evt.isMetaDown()) {
-            int row = jTree.getClosestRowForLocation(evt.getX(), evt.getY());
-            jTree.setSelectionRow(row);
-            Object selectedNodeObject = jTree.getSelectionPath().getLastPathComponent();
-
-            if (selectedNodeObject instanceof DefaultMutableTreeNode) {
-                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) selectedNodeObject;
-
-                treeModel = (DefaultTreeModel) jTree.getModel();
-                raiz = (DefaultMutableTreeNode) treeModel.getRoot();
-
-                if (selectedNode.equals(raiz)) {
-                    jPopupMenu_NewSchema.show(evt.getComponent(),
-                            evt.getX(), evt.getY());
-                } else if (selectedNode.getParent() != null && selectedNode.getParent().equals(raiz)) {
-                    jPopupMenu_DropSchema.show(evt.getComponent(),
-                            evt.getX(), evt.getY());
-                } else if (selectedNode.getParent() != null && selectedNode.getParent().getParent() != null
-                        && selectedNode.getParent().getParent().equals(raiz)) {
-                    nameSchema = selectedNode.getParent().toString();
-                    if (selectedNode.toString().equals("Tables")) {
-                        jPopupMenu_Table.show(evt.getComponent(),
-                                evt.getX(), evt.getY());
-                        CreateTable.setEnabled(true);
-                        DropTable.setEnabled(false);
-                        AlterTable.setEnabled(false);
-                    } else if (selectedNode.toString().equals("Views")) {
-                        jPopupMenu_View.show(evt.getComponent(),
-                                evt.getX(), evt.getY());
-                        CreateView.setEnabled(true);
-                        DropView.setEnabled(false);
-                        AlterView.setEnabled(false);
-                    } else if (selectedNode.toString().equals("Stored Procedures")) {
-                        jPopupMenu_Procedure.show(evt.getComponent(),
-                                evt.getX(), evt.getY());
-                        CreateProcedure.setEnabled(true);
-                        DropProcedure.setEnabled(false);
-                        AlterProcedure.setEnabled(false);
-                    } else if (selectedNode.toString().equals("Functions")) {
-                        jPopupMenu_Function.show(evt.getComponent(),
-                                evt.getX(), evt.getY());
-                        CreateFunction.setEnabled(true);
-                        DropFunction.setEnabled(false);
-                        AlterFunction.setEnabled(false);
-                    }
-                } else if (selectedNode.getParent() != null && selectedNode.getParent().getParent() != null
-                        && selectedNode.getParent().getParent().getParent() != null && selectedNode.getParent().getParent().getParent().equals(raiz)) {
-                    nameSchema = selectedNode.getParent().getParent().toString();
-                    if (selectedNode.getParent().toString().equals("Tables")) {
-                        jPopupMenu_Table.show(evt.getComponent(),
-                                evt.getX(), evt.getY());
-                        CreateTable.setEnabled(false);
-                        DropTable.setEnabled(true);
-                        AlterTable.setEnabled(true);
-                    } else if (selectedNode.getParent().toString().equals("Views")) {
-                        jPopupMenu_View.show(evt.getComponent(),
-                                evt.getX(), evt.getY());
-                        nameView = selectedNode.toString();
-                        CreateView.setEnabled(false);
-                        DropView.setEnabled(true);
-                        AlterView.setEnabled(true);
-                    } else if (selectedNode.getParent().toString().equals("Stored Procedures")) {
-                        jPopupMenu_Procedure.show(evt.getComponent(),
-                                evt.getX(), evt.getY());
-                        nameProcedure = selectedNode.toString();
-                        CreateProcedure.setEnabled(false);
-                        DropProcedure.setEnabled(true);
-                        AlterProcedure.setEnabled(true);
-                    } else if (selectedNode.getParent().toString().equals("Functions")) {
-                        jPopupMenu_Function.show(evt.getComponent(),
-                                evt.getX(), evt.getY());
-                        nameFunction = selectedNode.toString();
-                        CreateFunction.setEnabled(false);
-                        DropFunction.setEnabled(true);
-                        AlterFunction.setEnabled(true);
-                    }
-                } else if (selectedNode.getParent() != null && selectedNode.getParent().getParent() != null && selectedNode.getParent().getParent().getParent() != null
-                        && selectedNode.getParent().getParent().getParent().getParent() != null && selectedNode.getParent().getParent().getParent().getParent().equals(raiz)) {
-                    nameSchema = selectedNode.getParent().getParent().getParent().toString();
-                    nameTable = selectedNode.getParent().toString();
-                    if (selectedNode.toString().equals("Triggers")) {
-                        jPopupMenu_Triggers.show(evt.getComponent(),
-                                evt.getX(), evt.getY());
-                        CreateTrigger.setEnabled(true);
-                        DropTrigger.setEnabled(false);
-                        AlterTrigger.setEnabled(false);
-                    }
-                }else{
-                    nameTrigger = selectedNode.toString();
-                    nameSchema = selectedNode.getParent().getParent().getParent().getParent().toString();
-                    if (selectedNode.getParent().toString().equals("Triggers")) {
-                        jPopupMenu_Triggers.show(evt.getComponent(),
-                                evt.getX(), evt.getY());
-                        CreateTrigger.setEnabled(false);
-                        DropTrigger.setEnabled(true);
-                        AlterTrigger.setEnabled(true);
-                    }
-                }
-
-            }
-        }
-
-    }//GEN-LAST:event_jTreeMouseClicked
-
     private void Btn_CreateConnectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CreateConnectionActionPerformed
         jPanel4.setVisible(true);
         operation = "create";
@@ -2174,7 +2468,6 @@ public class Gestor extends javax.swing.JFrame {
                     ConnectionTree();
                 }
             } catch (SQLException ex) {
-                ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "An error occurred while updating the connection!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -2282,9 +2575,9 @@ public class Gestor extends javax.swing.JFrame {
                             if (operation.equals("read")) {
                                 JOptionPane.showMessageDialog(null, "Connection successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
                                 this.setVisible(false);
-                                Gestor_jDialog.pack();
-                                Gestor_jDialog.setLocationRelativeTo(this);
-                                Gestor_jDialog.setVisible(true);
+                                jFrame_Gestor.pack();
+                                jFrame_Gestor.setLocationRelativeTo(this);
+                                jFrame_Gestor.setVisible(true);
 
                                 consulta = "SELECT * FROM connections_data WHERE name = ?";
 
@@ -2610,110 +2903,6 @@ public class Gestor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_DropTableActionPerformed
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        if (jTable2.getSelectedRow() != -1) {
-            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-            int columnCount = model.getColumnCount();
-
-            user = "root";
-            password = "contra";
-
-            String insertSQL = "INSERT INTO " + nameTable + " (";
-
-            for (int col = 0; col < columnCount; col++) {
-                insertSQL += model.getColumnName(col);
-
-                if (col < columnCount - 1) {
-                    insertSQL += ", ";
-                }
-            }
-
-            insertSQL += ") VALUES (";
-
-            for (int col = 0; col < columnCount; col++) {
-                Object value = model.getValueAt(jTable2.getSelectedRow(), col);
-
-                if (isNumeric(value.toString())) {
-                    insertSQL += value.toString();
-                } else {
-                    insertSQL += "'" + value.toString() + "'";
-                }
-
-                if (col < columnCount - 1) {
-                    insertSQL += ", ";
-                }
-            }
-
-            insertSQL += ");";
-
-            try (
-                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + nameSchema, user, password); PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
-                preparedStatement.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Data inserted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                LlenarTabla(nameTable, nameSchema);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(null, "An error occurred: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }//GEN-LAST:event_jButton9ActionPerformed
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        if (jTable2.getSelectedRow() != -1) {
-            url = "jdbc:mysql://localhost:3306/" + nameSchema;
-            user = "root";
-            password = "contra";
-
-            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-            String columna = model.getColumnName(0);
-            int selectedRow = jTable2.getSelectedRow();
-
-            try (Connection connection = DriverManager.getConnection(url, user, password)) {
-
-                Statement statement = connection.createStatement();
-
-                String deleteQuery = "DELETE FROM " + nameTable + " WHERE " + columna + " = " + model.getValueAt(selectedRow, 0);
-
-                int rowsAffected = statement.executeUpdate(deleteQuery);
-
-                if (rowsAffected > 0) {
-                    JOptionPane.showMessageDialog(null, "Data deleted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    int[] selectedRows = jTable2.getSelectedRows();
-                    for (int i = selectedRows.length - 1; i >= 0; i--) {
-                        model.removeRow(selectedRows[i]);
-                    }
-
-                }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "An error occurred: \n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-
-    }//GEN-LAST:event_jButton10ActionPerformed
-
-    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
-        jTextField2.setText("");
-        jPasswordField1.setText("");
-        jPasswordField2.setText("");
-
-        jCheckBox_DBA.setSelected(false);
-        jCheckBox_MaAd.setSelected(false);
-        jCheckBox_PrAd.setSelected(false);
-        jCheckBox_UsAd.setSelected(false);
-        jCheckBox_SeAd.setSelected(false);
-        jCheckBox_MoAd.setSelected(false);
-        jCheckBox_DBM.setSelected(false);
-        jCheckBox_DBD.setSelected(false);
-        jCheckBox_ReAd.setSelected(false);
-        jCheckBox_BaAd.setSelected(false);
-
-        Users.pack();
-        Users.setLocationRelativeTo(this);
-        Users.setVisible(true);
-    }//GEN-LAST:event_jMenu2MouseClicked
-
     private void jButton12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton12MouseClicked
         url = "jdbc:mysql://localhost:3306/connections";
         user = "root";
@@ -2887,6 +3076,8 @@ public class Gestor extends javax.swing.JFrame {
         Procedure.setLocationRelativeTo(this);
         Procedure.setVisible(true);
 
+        jLabel25.setText("New Procedure");
+
         jTextField3.setText("new_procedure");
         jTextArea1.setText("CREATE PROCEDURE 'new_procedure' ()\n"
                 + "BEGIN\n"
@@ -2904,14 +3095,27 @@ public class Gestor extends javax.swing.JFrame {
 
             Connection connection = DriverManager.getConnection(url, user, password);
 
-            String sqlQuery = jTextArea1.getText();
+            String sqlQuery = "";
+            if (jLabel25.getText().equals("New Procedure")) {
+                sqlQuery = jTextArea1.getText();
+                statement = connection.createStatement();
+                statement.execute(sqlQuery);
+                JOptionPane.showMessageDialog(null, "Stored Procedure created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else if (jLabel25.getText().equals("Alter Procedure")) {
+                String sqlDrop = "DROP PROCEDURE IF EXISTS " + jTextField3.getText();
+                statement = connection.createStatement();
+                statement.execute(sqlDrop);
 
-            Statement statement = connection.createStatement();
-            statement.execute(sqlQuery);
+                sqlQuery = jTextArea1.getText();
+                statement = connection.createStatement();
+                statement.execute(sqlQuery);
 
-            JOptionPane.showMessageDialog(null, "Stored Procedure created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Stored Procedure altered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            Procedure.setVisible(false);
+
             SchemasTree();
-
             statement.close();
             connection.close();
         } catch (SQLException e) {
@@ -2927,16 +3131,27 @@ public class Gestor extends javax.swing.JFrame {
         password = "contra";
 
         try {
-            Connection connection = DriverManager.getConnection(url, user, password);
+            connection = DriverManager.getConnection(url, user, password);
+            String sqlQuery = "";
+            if (jLabel24.getText().equals("New Function")) {
+                sqlQuery = jTextArea2.getText();
+                statement = connection.createStatement();
+                statement.execute(sqlQuery);
+                JOptionPane.showMessageDialog(null, "Function created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else if (jLabel24.getText().equals("Alter Function")) {
+                String sqlDrop = "DROP FUNCTION IF EXISTS " + jTextField4.getText();
+                statement = connection.createStatement();
+                statement.execute(sqlDrop);
 
-            String sqlQuery = jTextArea2.getText();
+                sqlQuery = jTextArea2.getText();
+                statement = connection.createStatement();
+                statement.execute(sqlQuery);
 
-            Statement statement = connection.createStatement();
-            statement.execute(sqlQuery);
+                JOptionPane.showMessageDialog(null, "Function altered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
 
-            JOptionPane.showMessageDialog(null, "Function created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            Function.setVisible(false);
             SchemasTree();
-
             statement.close();
             connection.close();
         } catch (SQLException e) {
@@ -2948,6 +3163,8 @@ public class Gestor extends javax.swing.JFrame {
         Function.pack();
         Function.setLocationRelativeTo(this);
         Function.setVisible(true);
+
+        jLabel24.setText("New Function");
 
         jTextField4.setText("new_function");
         jTextArea2.setText("CREATE FUNCTION 'new_function' ()\n"
@@ -3009,6 +3226,7 @@ public class Gestor extends javax.swing.JFrame {
         View.setLocationRelativeTo(this);
         View.setVisible(true);
 
+        jLabel28.setText("Create View");
         jLabel_nameSchema.setText(nameSchema);
         jTextArea_SQLQuery.setText("SELECT\n\n"
                 + "FROM ");
@@ -3020,14 +3238,27 @@ public class Gestor extends javax.swing.JFrame {
         password = "contra";
 
         try {
-            Connection connection = DriverManager.getConnection(url, user, password);
+            connection = DriverManager.getConnection(url, user, password);
 
-            String createViewQuery = "CREATE VIEW " + newView.getText() + " AS " + jTextArea_SQLQuery.getText();
+            String viewQuery;
+            statement = connection.createStatement();
 
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(createViewQuery);
+            if (jLabel28.getText().equals("Create View")) {
+                viewQuery = "CREATE VIEW " + newView.getText() + " AS " + jTextArea_SQLQuery.getText();
+                statement.executeUpdate(viewQuery);
+                JOptionPane.showMessageDialog(null, "View created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else if (jLabel28.getText().equals("Alter View")) {
+                String sqlDrop = "DROP VIEW IF EXISTS " + newView.getText();
+                statement = connection.createStatement();
+                statement.execute(sqlDrop);
 
-            JOptionPane.showMessageDialog(null, "View created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                viewQuery = "CREATE VIEW " + newView.getText() + " AS " + jTextArea_SQLQuery.getText();
+                statement = connection.createStatement();
+                statement.execute(viewQuery);
+
+                JOptionPane.showMessageDialog(null, "View altered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+
             SchemasTree();
             View.setVisible(false);
 
@@ -3051,11 +3282,11 @@ public class Gestor extends javax.swing.JFrame {
         password = "contra";
 
         try {
-            Connection connection = DriverManager.getConnection(url, user, password);
+            connection = DriverManager.getConnection(url, user, password);
 
             String sqlQuery = "DROP VIEW " + nameView;
 
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             statement.execute(sqlQuery);
 
             JOptionPane.showMessageDialog(null, "View dropped successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -3072,19 +3303,27 @@ public class Gestor extends javax.swing.JFrame {
         Triggers.pack();
         Triggers.setLocationRelativeTo(this);
         Triggers.setVisible(true);
+        jLabel29.setText("Create Trigger");
+
+        btn_beforeInsert.setEnabled(true);
+        btn_afterInsert.setEnabled(true);
+        btn_beforeUpdate.setEnabled(true);
+        btn_afterUpdate.setEnabled(true);
+        btn_beforeDelete.setEnabled(true);
+        btn_afterDelete.setEnabled(true);
     }//GEN-LAST:event_CreateTriggerActionPerformed
 
     private void DropTriggerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DropTriggerActionPerformed
-         url = "jdbc:mysql://localhost:3306/" + nameSchema;
+        url = "jdbc:mysql://localhost:3306/" + nameSchema;
         user = "root";
         password = "contra";
 
         try {
-            Connection connection = DriverManager.getConnection(url, user, password);
+            connection = DriverManager.getConnection(url, user, password);
 
             String sqlQuery = "DROP TRIGGER " + nameTrigger;
 
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             statement.execute(sqlQuery);
 
             JOptionPane.showMessageDialog(null, "Trigger dropped successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -3141,6 +3380,7 @@ public class Gestor extends javax.swing.JFrame {
 
     private void jButton22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton22MouseClicked
         jTextArea3.setText("");
+        Triggers.setVisible(false);
     }//GEN-LAST:event_jButton22MouseClicked
 
     private void jButton23MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton23MouseClicked
@@ -3148,18 +3388,31 @@ public class Gestor extends javax.swing.JFrame {
         user = "root";
         password = "contra";
 
-        System.out.println(nameSchema);
-
         try {
-            Connection connection = DriverManager.getConnection(url, user, password);
+            connection = DriverManager.getConnection(url, user, password);
 
-            String createTQuery = jTextArea3.getText();
+            String createTQuery;
 
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(createTQuery);
+            if (jLabel29.getText().equals("New Trigger")) {
+                createTQuery = jTextArea3.getText();
+                System.out.println(createTQuery);
+                statement.executeUpdate(createTQuery);
+                JOptionPane.showMessageDialog(null, "Trigger created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else if (jLabel29.getText().equals("Alter Trigger")) {
+                String sqlDrop = "DROP TRIGGER IF EXISTS " + nameTrigger;
+                System.out.println(sqlDrop);
+                statement = connection.createStatement();
+                statement.execute(sqlDrop);
 
-            JOptionPane.showMessageDialog(null, "Trigger created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                createTQuery = jTextArea3.getText();
+                statement = connection.createStatement();
+                statement.execute(createTQuery);
+
+                JOptionPane.showMessageDialog(null, "Trigger altered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+
             SchemasTree();
+            jTextArea3.setText("");
             Triggers.setVisible(false);
 
             statement.close();
@@ -3169,6 +3422,791 @@ public class Gestor extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton23MouseClicked
+
+    private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu4MouseClicked
+        jTextField2.setText("");
+        jPasswordField1.setText("");
+        jPasswordField2.setText("");
+
+        jCheckBox_DBA.setSelected(false);
+        jCheckBox_MaAd.setSelected(false);
+        jCheckBox_PrAd.setSelected(false);
+        jCheckBox_UsAd.setSelected(false);
+        jCheckBox_SeAd.setSelected(false);
+        jCheckBox_MoAd.setSelected(false);
+        jCheckBox_DBM.setSelected(false);
+        jCheckBox_DBD.setSelected(false);
+        jCheckBox_ReAd.setSelected(false);
+        jCheckBox_BaAd.setSelected(false);
+
+        Users.pack();
+        Users.setLocationRelativeTo(this);
+        Users.setVisible(true);
+    }//GEN-LAST:event_jMenu4MouseClicked
+
+    private void jTreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTreeMouseClicked
+
+        if (evt.isMetaDown()) {
+            int row = jTree.getClosestRowForLocation(evt.getX(), evt.getY());
+            jTree.setSelectionRow(row);
+            Object selectedNodeObject = jTree.getSelectionPath().getLastPathComponent();
+
+            if (selectedNodeObject instanceof DefaultMutableTreeNode) {
+                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) selectedNodeObject;
+
+                treeModel = (DefaultTreeModel) jTree.getModel();
+                raiz = (DefaultMutableTreeNode) treeModel.getRoot();
+
+                if (selectedNode.equals(raiz)) {
+                    jPopupMenu_NewSchema.show(evt.getComponent(),
+                            evt.getX(), evt.getY());
+                } else if (selectedNode.getParent() != null && selectedNode.getParent().equals(raiz)) {
+                    jPopupMenu_DropSchema.show(evt.getComponent(),
+                            evt.getX(), evt.getY());
+                } else if (selectedNode.getParent() != null && selectedNode.getParent().getParent() != null
+                        && selectedNode.getParent().getParent().equals(raiz)) {
+                    nameSchema = selectedNode.getParent().toString();
+                    if (selectedNode.toString().equals("Tables")) {
+                        jPopupMenu_Table.show(evt.getComponent(),
+                                evt.getX(), evt.getY());
+                        CreateTable.setEnabled(true);
+                        DropTable.setEnabled(false);
+                        AlterTable.setEnabled(false);
+                    } else if (selectedNode.toString().equals("Views")) {
+                        jPopupMenu_View.show(evt.getComponent(),
+                                evt.getX(), evt.getY());
+                        CreateView.setEnabled(true);
+                        DropView.setEnabled(false);
+                        AlterView.setEnabled(false);
+                    } else if (selectedNode.toString().equals("Stored Procedures")) {
+                        jPopupMenu_Procedure.show(evt.getComponent(),
+                                evt.getX(), evt.getY());
+                        CreateProcedure.setEnabled(true);
+                        DropProcedure.setEnabled(false);
+                        AlterProcedure.setEnabled(false);
+                    } else if (selectedNode.toString().equals("Functions")) {
+                        jPopupMenu_Function.show(evt.getComponent(),
+                                evt.getX(), evt.getY());
+                        CreateFunction.setEnabled(true);
+                        DropFunction.setEnabled(false);
+                        AlterFunction.setEnabled(false);
+                    }
+                } else if (selectedNode.getParent() != null && selectedNode.getParent().getParent() != null
+                        && selectedNode.getParent().getParent().getParent() != null && selectedNode.getParent().getParent().getParent().equals(raiz)) {
+                    nameSchema = selectedNode.getParent().getParent().toString();
+                    if (selectedNode.getParent().toString().equals("Tables")) {
+                        jPopupMenu_Table.show(evt.getComponent(),
+                                evt.getX(), evt.getY());
+                        CreateTable.setEnabled(false);
+                        DropTable.setEnabled(true);
+                        AlterTable.setEnabled(true);
+                    } else if (selectedNode.getParent().toString().equals("Views")) {
+                        jPopupMenu_View.show(evt.getComponent(),
+                                evt.getX(), evt.getY());
+                        nameView = selectedNode.toString();
+                        CreateView.setEnabled(false);
+                        DropView.setEnabled(true);
+                        AlterView.setEnabled(true);
+                    } else if (selectedNode.getParent().toString().equals("Stored Procedures")) {
+                        jPopupMenu_Procedure.show(evt.getComponent(),
+                                evt.getX(), evt.getY());
+                        nameProcedure = selectedNode.toString();
+                        CreateProcedure.setEnabled(false);
+                        DropProcedure.setEnabled(true);
+                        AlterProcedure.setEnabled(true);
+                    } else if (selectedNode.getParent().toString().equals("Functions")) {
+                        jPopupMenu_Function.show(evt.getComponent(),
+                                evt.getX(), evt.getY());
+                        nameFunction = selectedNode.toString();
+                        CreateFunction.setEnabled(false);
+                        DropFunction.setEnabled(true);
+                        AlterFunction.setEnabled(true);
+                    }
+                } else if (selectedNode.getParent() != null && selectedNode.getParent().getParent() != null && selectedNode.getParent().getParent().getParent() != null
+                        && selectedNode.getParent().getParent().getParent().getParent() != null && selectedNode.getParent().getParent().getParent().getParent().equals(raiz)) {
+                    nameSchema = selectedNode.getParent().getParent().getParent().toString();
+                    nameTable = selectedNode.getParent().toString();
+                    if (selectedNode.toString().equals("Triggers")) {
+                        jPopupMenu_Triggers.show(evt.getComponent(),
+                                evt.getX(), evt.getY());
+                        CreateTrigger.setEnabled(true);
+                        DropTrigger.setEnabled(false);
+                        AlterTrigger.setEnabled(false);
+                    } else if (selectedNode.toString().equals("Indexes")) {
+                        jPopupMenu_Index.show(evt.getComponent(),
+                                evt.getX(), evt.getY());
+                        CreateIndex.setEnabled(true);
+                        DropIndex.setEnabled(false);
+                        AlterIndex.setEnabled(false);
+                    } else if (selectedNode.toString().equals("Foreign Keys")) {
+                        jPopupMenu_Keys.show(evt.getComponent(),
+                                evt.getX(), evt.getY());
+                        CreateKeys.setEnabled(true);
+                        DropKeys.setEnabled(false);
+                        AlterKeys.setEnabled(false);
+                    }
+                } else {
+                    nameSchema = selectedNode.getParent().getParent().getParent().getParent().toString();
+                    if (selectedNode.getParent().toString().equals("Triggers")) {
+                        nameTrigger = selectedNode.toString();
+                        nameTable = selectedNode.getParent().getParent().toString();
+                        jPopupMenu_Triggers.show(evt.getComponent(),
+                                evt.getX(), evt.getY());
+                        CreateTrigger.setEnabled(false);
+                        DropTrigger.setEnabled(true);
+                        AlterTrigger.setEnabled(true);
+                    } else if (selectedNode.getParent().toString().equals("Indexes")) {
+                        nameIndex = selectedNode.toString();
+                        nameTable = selectedNode.getParent().getParent().toString();
+                        jPopupMenu_Index.show(evt.getComponent(),
+                                evt.getX(), evt.getY());
+                        CreateIndex.setEnabled(false);
+                        DropIndex.setEnabled(true);
+                        AlterIndex.setEnabled(true);
+                    } else if (selectedNode.getParent().toString().equals("Foreign Keys")) {
+                        nameForeignKey = selectedNode.toString();
+                        nameTable = selectedNode.getParent().getParent().toString();
+                        jPopupMenu_Keys.show(evt.getComponent(),
+                                evt.getX(), evt.getY());
+                        CreateKeys.setEnabled(false);
+                        DropKeys.setEnabled(true);
+                        AlterKeys.setEnabled(true);
+                    }
+                }
+
+            }
+        }
+    }//GEN-LAST:event_jTreeMouseClicked
+
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+        if (jTable2.getSelectedRow() != -1) {
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+            int columnCount = model.getColumnCount();
+
+            user = "root";
+            password = "contra";
+
+            String insertSQL = "INSERT INTO " + nameTable + " (";
+
+            for (int col = 0; col < columnCount; col++) {
+                insertSQL += model.getColumnName(col);
+
+                if (col < columnCount - 1) {
+                    insertSQL += ", ";
+                }
+            }
+
+            insertSQL += ") VALUES (";
+
+            for (int col = 0; col < columnCount; col++) {
+                Object value = model.getValueAt(jTable2.getSelectedRow(), col);
+
+                if (isNumeric(value.toString())) {
+                    insertSQL += value.toString();
+                } else {
+                    insertSQL += "'" + value.toString() + "'";
+                }
+
+                if (col < columnCount - 1) {
+                    insertSQL += ", ";
+                }
+            }
+
+            insertSQL += ");";
+
+            try (
+                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + nameSchema, user, password); PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
+                preparedStatement.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data inserted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                LlenarTabla(nameTable, nameSchema);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "An error occurred: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {
+        if (jTable2.getSelectedRow() != -1) {
+            url = "jdbc:mysql://localhost:3306/" + nameSchema;
+            user = "root";
+            password = "contra";
+
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+            String columna = model.getColumnName(0);
+            int selectedRow = jTable2.getSelectedRow();
+
+            try (Connection connection = DriverManager.getConnection(url, user, password)) {
+
+                statement = connection.createStatement();
+
+                String deleteQuery = "DELETE FROM " + nameTable + " WHERE " + columna + " = " + model.getValueAt(selectedRow, 0);
+
+                int rowsAffected = statement.executeUpdate(deleteQuery);
+
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(null, "Data deleted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    int[] selectedRows = jTable2.getSelectedRows();
+                    for (int i = selectedRows.length - 1; i >= 0; i--) {
+                        model.removeRow(selectedRows[i]);
+                    }
+
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "An error occurred: \n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+    }//GEN-LAST:event_jButton16ActionPerformed
+
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        if (jTable2.getSelectedRow() != -1) {
+            url = "jdbc:mysql://localhost:3306/" + nameSchema;
+            user = "root";
+            password = "contra";
+
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+            String columna = model.getColumnName(0);
+            int selectedRow = jTable2.getSelectedRow();
+
+            try (Connection connection = DriverManager.getConnection(url, user, password)) {
+
+                statement = connection.createStatement();
+
+                String deleteQuery = "DELETE FROM " + nameTable + " WHERE " + columna + " = " + model.getValueAt(selectedRow, 0);
+
+                int rowsAffected = statement.executeUpdate(deleteQuery);
+
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(null, "Data deleted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    int[] selectedRows = jTable2.getSelectedRows();
+                    for (int i = selectedRows.length - 1; i >= 0; i--) {
+                        model.removeRow(selectedRows[i]);
+                    }
+
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "An error occurred: \n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jButton17ActionPerformed
+
+    private void AlterFunctionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlterFunctionActionPerformed
+        Function.pack();
+        Function.setLocationRelativeTo(this);
+        Function.setVisible(true);
+
+        jLabel24.setText("Alter Function");
+
+        url = "jdbc:mysql://localhost:3306/" + nameSchema;
+        user = "root";
+        password = "contra";
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+            statement = connection.createStatement();
+
+            String query = "SHOW CREATE FUNCTION " + nameFunction;
+
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                String nombreFuncion = resultSet.getString(1);
+                String createFunctionStatement = resultSet.getString(3);
+
+                String alterFunctionStatement = createFunctionStatement.replaceAll("DEFINER=`[^`]+`@`[^`]+`", "");
+                jTextArea2.setText(alterFunctionStatement);
+                jTextField4.setText(nombreFuncion);
+            }
+
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_AlterFunctionActionPerformed
+
+    private void AlterProcedureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlterProcedureActionPerformed
+        jLabel25.setText("Alter Procedure");
+
+        Procedure.pack();
+        Procedure.setLocationRelativeTo(this);
+        Procedure.setVisible(true);
+
+        url = "jdbc:mysql://localhost:3306/" + nameSchema;
+        user = "root";
+        password = "contra";
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+            statement = connection.createStatement();
+
+            String query = "SHOW CREATE PROCEDURE " + nameProcedure;
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                String nombreProcedure = resultSet.getString(1);
+                String createProcedureStatement = resultSet.getString(3);
+
+                String alterProcedureStatement = createProcedureStatement.replaceAll("DEFINER=`[^`]+`@`[^`]+`", "");
+                jTextArea1.setText(alterProcedureStatement);
+                jTextField3.setText(nombreProcedure);
+            }
+
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_AlterProcedureActionPerformed
+
+    private void AlterViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlterViewActionPerformed
+        View.pack();
+        View.setLocationRelativeTo(this);
+        View.setVisible(true);
+        jLabel28.setText("Alter View");
+
+        url = "jdbc:mysql://localhost:3306/" + nameSchema;
+        user = "root";
+        password = "contra";
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+            statement = connection.createStatement();
+
+            String query = "SELECT TABLE_NAME, VIEW_DEFINITION\n"
+                    + "FROM information_schema.VIEWS\n"
+                    + "WHERE TABLE_NAME = '" + nameView + "' AND TABLE_SCHEMA = '" + nameSchema + "';";
+
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                String createViewStatement = resultSet.getString(2);
+
+                createViewStatement = createViewStatement.replaceAll("`" + nameSchema + "`\\.", "");
+                createViewStatement = createViewStatement.replaceAll("`", "");
+                createViewStatement = createViewStatement.replaceAll("`\\.", "");
+                createViewStatement = createViewStatement.replaceAll("(?i)(\\bAS\\b|\\bWHERE\\b)", "\n$1");
+                jTextArea_SQLQuery.setText(createViewStatement);
+                newView.setText(nameView);
+            }
+
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_AlterViewActionPerformed
+
+    private void AlterTriggerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlterTriggerActionPerformed
+        Triggers.pack();
+        Triggers.setLocationRelativeTo(this);
+        Triggers.setVisible(true);
+        jLabel29.setText("Alter Trigger");
+
+        btn_beforeInsert.setEnabled(false);
+        btn_afterInsert.setEnabled(false);
+        btn_beforeUpdate.setEnabled(false);
+        btn_afterUpdate.setEnabled(false);
+        btn_beforeDelete.setEnabled(false);
+        btn_afterDelete.setEnabled(false);
+
+        url = "jdbc:mysql://localhost:3306/" + nameSchema;
+        user = "root";
+        password = "contra";
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+            statement = connection.createStatement();
+
+            String query = "SHOW CREATE TRIGGER " + nameTrigger;
+
+            resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                String createTriggerStatement = resultSet.getString(3);
+
+                String alterTriggerStatement = createTriggerStatement.replaceAll("DEFINER=`[^`]+`@`[^`]+`", "");
+                alterTriggerStatement = alterTriggerStatement.replaceAll("`", "");
+
+                jTextArea3.setText(alterTriggerStatement);
+            }
+
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_AlterTriggerActionPerformed
+
+    private void CreateIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateIndexActionPerformed
+        Index.pack();
+        Index.setLocationRelativeTo(this);
+        Index.setVisible(true);
+        jLabel34.setText("Create Index");
+        String[] comboBoxOptions = {"", "ASC", "DESC"};
+
+        JComboBox<String> comboBox = new JComboBox<>(comboBoxOptions);
+        TableColumn tcTypes = jTable3.getColumnModel().getColumn(2);
+        tcTypes.setCellEditor(new DefaultCellEditor(comboBox));
+
+        jLabel32.setText(nameTable);
+
+        url = "jdbc:mysql://localhost:3306/" + nameSchema;
+        user = "root";
+        password = "contra";
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+            statement = connection.createStatement();
+
+            DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+            resultSet = statement.executeQuery("SHOW COLUMNS FROM " + nameTable);
+
+            while (resultSet.next()) {
+                String columnName = resultSet.getString("Field");
+                model.addRow(new Object[]{false, columnName, ""});
+            }
+
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_CreateIndexActionPerformed
+
+    private void DropIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DropIndexActionPerformed
+        url = "jdbc:mysql://localhost:3306/" + nameSchema;
+        user = "root";
+        password = "contra";
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+
+            String sqlQuery = "DROP INDEX " + nameIndex + " ON " + nameTable;
+            System.out.println(sqlQuery);
+
+            statement = connection.createStatement();
+            statement.execute(sqlQuery);
+
+            JOptionPane.showMessageDialog(null, "Index dropped successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            SchemasTree();
+
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "An error occurred: \n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_DropIndexActionPerformed
+
+    private void AlterIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlterIndexActionPerformed
+        Index.pack();
+        Index.setLocationRelativeTo(this);
+        Index.setVisible(true);
+        jLabel34.setText("Alter Index");
+    }//GEN-LAST:event_AlterIndexActionPerformed
+
+    private void CreateKeysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateKeysActionPerformed
+        ForeignKey.pack();
+        ForeignKey.setLocationRelativeTo(this);
+        ForeignKey.setVisible(true);
+        jLabel35.setText("New Foreign Key");
+
+        user = "root";
+        password = "contra";
+
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + nameSchema, user, password);
+
+            statement = connection.createStatement();
+            ResultSet infoResultSet = statement.executeQuery("SELECT TABLE_NAME, TABLE_TYPE \n"
+                    + "FROM INFORMATION_SCHEMA.TABLES\n"
+                    + "WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = '" + nameSchema + "';");
+
+            while (infoResultSet.next()) {
+                String tableName = infoResultSet.getString("TABLE_NAME");
+                jComboBox2.addItem(tableName);
+            }
+
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + nameSchema, user, password);
+
+            DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
+
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SHOW COLUMNS FROM " + nameTable);
+
+            while (resultSet.next()) {
+                String columnName = resultSet.getString("Field");
+                model.addRow(new Object[]{false, columnName, ""});
+            }
+
+            resultSet.close();
+            connection.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "An error occurred: \n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_CreateKeysActionPerformed
+
+    private void DropKeysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DropKeysActionPerformed
+        url = "jdbc:mysql://localhost:3306/" + nameSchema;
+        user = "root";
+        password = "contra";
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+
+            String sqlQuery = "ALTER TABLE " + nameTable + " DROP FOREIGN KEY " + nameForeignKey;
+
+            statement = connection.createStatement();
+            statement.execute(sqlQuery);
+
+            JOptionPane.showMessageDialog(null, "Foreign key dropped successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            SchemasTree();
+
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "An error occurred: \n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_DropKeysActionPerformed
+
+    private void AlterKeysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlterKeysActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AlterKeysActionPerformed
+
+    private void CancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CancelMouseClicked
+        jLabel32.setText("-");
+        jTextField5.setText("");
+        DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+        model.setRowCount(0);
+    }//GEN-LAST:event_CancelMouseClicked
+
+    private void jTabbedPane4StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane4StateChanged
+        DefaultTableModel tableModel = (DefaultTableModel) jTable3.getModel();
+        String indexDDL = "";
+        if (jComboBox1.getSelectedItem().equals("INDEX")) {
+            indexDDL = "CREATE INDEX " + jTextField5.getText() + " ON " + jLabel32.getText() + "\n(";
+        } else {
+            indexDDL = "CREATE " + jComboBox1.getSelectedItem() + " INDEX " + jTextField5.getText() + " ON " + jLabel32.getText() + "\n(";
+        }
+
+        for (int row = 0; row < tableModel.getRowCount(); row++) {
+            Boolean selected = (Boolean) tableModel.getValueAt(row, 0);
+            if (selected) {
+                String columnName = (String) tableModel.getValueAt(row, 1);
+                String order = (String) tableModel.getValueAt(row, 2);
+
+                if (order.equals(" ")) {
+                    indexDDL += columnName;
+                } else {
+                    indexDDL += columnName + " " + order;
+                }
+
+                boolean hasNextSelected = false;
+                for (int nextRow = row + 1; nextRow < tableModel.getRowCount(); nextRow++) {
+                    if ((Boolean) tableModel.getValueAt(nextRow, 0)) {
+                        hasNextSelected = true;
+                        break;
+                    }
+                }
+
+                if (hasNextSelected) {
+                    indexDDL += ", ";
+                }
+            }
+        }
+
+        indexDDL += ")";
+
+        jTextArea4.setText(indexDDL);
+    }//GEN-LAST:event_jTabbedPane4StateChanged
+
+    private void ApplyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ApplyMouseClicked
+
+        DefaultTableModel tableModel = (DefaultTableModel) jTable3.getModel();
+
+        String indexDDL = "";
+        if (jComboBox1.getSelectedItem().equals("INDEX")) {
+            indexDDL = "CREATE INDEX " + jTextField5.getText() + " ON " + jLabel32.getText() + "\n(";
+        } else {
+            indexDDL = "CREATE " + jComboBox1.getSelectedItem() + " INDEX " + jTextField5.getText() + " ON " + jLabel32.getText() + "\n(";
+        }
+
+        for (int row = 0; row < tableModel.getRowCount(); row++) {
+            Boolean selected = (Boolean) tableModel.getValueAt(row, 0);
+            if (selected) {
+                String columnName = (String) tableModel.getValueAt(row, 1);
+                String order = (String) tableModel.getValueAt(row, 2);
+
+                if (order.equals(" ")) {
+                    indexDDL += columnName;
+                } else {
+                    indexDDL += columnName + " " + order;
+                }
+
+                boolean hasNextSelected = false;
+                for (int nextRow = row + 1; nextRow < tableModel.getRowCount(); nextRow++) {
+                    if ((Boolean) tableModel.getValueAt(nextRow, 0)) {
+                        hasNextSelected = true;
+                        break;
+                    }
+                }
+
+                if (hasNextSelected) {
+                    indexDDL += ", ";
+                }
+            }
+        }
+
+        indexDDL += ")";
+
+        url = "jdbc:mysql://localhost:3306/" + nameSchema;
+        user = "root";
+        password = "contra";
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+            statement = connection.createStatement();
+
+            statement.executeUpdate(indexDDL);
+            JOptionPane.showMessageDialog(null, "Index created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            SchemasTree();
+
+            jLabel32.setText("-");
+            jTextField5.setText("");
+            DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+            model.setRowCount(0);
+
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "An error occurred: \n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_ApplyMouseClicked
+
+    private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
+        DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
+        int columnToChange = 2;
+
+        ArrayList<String> comboBoxOptions = new ArrayList<>();
+
+        url = "jdbc:mysql://localhost:3306/" + nameSchema;
+        user = "root";
+        password = "contra";
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+            statement = connection.createStatement();
+
+            resultSet = statement.executeQuery("SHOW COLUMNS FROM " + jComboBox2.getSelectedItem().toString());
+
+            while (resultSet.next()) {
+                String columnName = resultSet.getString("Field");
+                comboBoxOptions.add(columnName);
+            }
+
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String[] array = comboBoxOptions.toArray(new String[0]);
+        JComboBox<String> comboBox = new JComboBox<>(array);
+        TableColumn tcTypes = jTable4.getColumnModel().getColumn(2);
+        tcTypes.setCellEditor(new DefaultCellEditor(comboBox));
+
+    }//GEN-LAST:event_jComboBox2ItemStateChanged
+
+    private void jButton9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MouseClicked
+        DefaultTableModel tableModel = (DefaultTableModel) jTable4.getModel();
+
+        String sql = "ALTER TABLE " + nameTable
+                + " ADD CONSTRAINT " + jTextField6.getText()
+                + " FOREIGN KEY (";
+
+        List<String> foreignKeyColumns = new ArrayList<>();
+        List<String> referencedColumns = new ArrayList<>();
+        String referencedTable = (String) jComboBox2.getSelectedItem();
+
+        for (int row = 0; row < tableModel.getRowCount(); row++) {
+            Boolean selected = (Boolean) tableModel.getValueAt(row, 0);
+            if (selected != null && selected) {
+                String foreignKeyColumn = (String) tableModel.getValueAt(row, 1);
+                String referencedColumn = (String) tableModel.getValueAt(row, 2);
+                foreignKeyColumns.add(foreignKeyColumn);
+                referencedColumns.add(referencedColumn);
+            }
+        }
+
+        sql += String.join(", ", foreignKeyColumns) + ") "
+                + "REFERENCES " + referencedTable + " (" + String.join(", ", referencedColumns) + ");";
+
+        url = "jdbc:mysql://localhost:3306/" + nameSchema;
+        user = "root";
+        password = "contra";
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+            statement = connection.createStatement();
+
+            statement.executeUpdate(sql);
+            JOptionPane.showMessageDialog(null, "Foreign Key created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            SchemasTree();
+
+            ForeignKey.setVisible(false);
+
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "An error occurred: \n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton9MouseClicked
+
+    private void jTabbedPane5StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane5StateChanged
+        DefaultTableModel tableModel = (DefaultTableModel) jTable4.getModel();
+
+        String sql = "ALTER TABLE " + nameTable
+                + "\nADD CONSTRAINT " + jTextField6.getText()
+                + "\nFOREIGN KEY (";
+
+        List<String> foreignKeyColumns = new ArrayList<>();
+        List<String> referencedColumns = new ArrayList<>();
+        String referencedTable = (String) jComboBox2.getSelectedItem();
+
+        for (int row = 0; row < tableModel.getRowCount(); row++) {
+            Boolean selected = (Boolean) tableModel.getValueAt(row, 0);
+            if (selected != null && selected) {
+                String foreignKeyColumn = (String) tableModel.getValueAt(row, 1);
+                String referencedColumn = (String) tableModel.getValueAt(row, 2);
+                foreignKeyColumns.add(foreignKeyColumn);
+                referencedColumns.add(referencedColumn);
+            }
+        }
+
+        sql += String.join(", ", foreignKeyColumns) + ") "
+                + "\nREFERENCES " + referencedTable + " (" + String.join(", ", referencedColumns) + ");";
+
+        jTextArea5.setText(sql);
+    }//GEN-LAST:event_jTabbedPane5StateChanged
+
+    private void jButton10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10MouseClicked
+        DefaultTableModel tableModel = (DefaultTableModel) jTable4.getModel();
+        tableModel.setRowCount(0);
+        jTextField6.setText("");
+
+        ForeignKey.setVisible(false);
+    }//GEN-LAST:event_jButton10MouseClicked
 
     /**
      * @param args the command line arguments
@@ -3207,31 +4245,40 @@ public class Gestor extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AlterFunction;
+    private javax.swing.JMenuItem AlterIndex;
+    private javax.swing.JMenuItem AlterKeys;
     private javax.swing.JMenuItem AlterProcedure;
     private javax.swing.JMenuItem AlterTable;
     private javax.swing.JMenuItem AlterTrigger;
     private javax.swing.JMenuItem AlterView;
+    private javax.swing.JButton Apply;
     private javax.swing.JMenuItem Btn_CreateConnection;
     private javax.swing.JMenuItem Btn_DeleteC;
     private javax.swing.JMenuItem Btn_DropSchema;
     private javax.swing.JMenuItem Btn_EditC;
     private javax.swing.JMenuItem Btn_NewSchema;
     private javax.swing.JMenuItem Btn_OpenC;
+    private javax.swing.JButton Cancel;
     private javax.swing.JMenuItem CreateFunction;
+    private javax.swing.JMenuItem CreateIndex;
+    private javax.swing.JMenuItem CreateKeys;
     private javax.swing.JMenuItem CreateProcedure;
     private javax.swing.JMenuItem CreateTable;
     private javax.swing.JMenuItem CreateTrigger;
     private javax.swing.JMenuItem CreateView;
     private javax.swing.JTextArea DDL_CreateTable;
     private javax.swing.JMenuItem DropFunction;
+    private javax.swing.JMenuItem DropIndex;
+    private javax.swing.JMenuItem DropKeys;
     private javax.swing.JMenuItem DropProcedure;
     private javax.swing.JMenuItem DropTable;
     private javax.swing.JMenuItem DropTrigger;
     private javax.swing.JMenuItem DropView;
     private javax.swing.JMenuItem Drop_User;
     private javax.swing.JMenuItem Edit_User;
+    private javax.swing.JDialog ForeignKey;
     private javax.swing.JDialog Function;
-    private javax.swing.JDialog Gestor_jDialog;
+    private javax.swing.JDialog Index;
     private javax.swing.JPasswordField Login_Pass;
     private javax.swing.JTextField Login_User;
     private javax.swing.JDialog NameSchema;
@@ -3256,6 +4303,8 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton23;
@@ -3278,6 +4327,9 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox_ReAd;
     private javax.swing.JCheckBox jCheckBox_SeAd;
     private javax.swing.JCheckBox jCheckBox_UsAd;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JFrame jFrame_Gestor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -3301,6 +4353,14 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -3308,12 +4368,16 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel_nameSchema;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -3328,6 +4392,8 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JPopupMenu jPopupMenu_CreateConnection;
     private javax.swing.JPopupMenu jPopupMenu_DropSchema;
     private javax.swing.JPopupMenu jPopupMenu_Function;
+    private javax.swing.JPopupMenu jPopupMenu_Index;
+    private javax.swing.JPopupMenu jPopupMenu_Keys;
     private javax.swing.JPopupMenu jPopupMenu_NewSchema;
     private javax.swing.JPopupMenu jPopupMenu_Procedure;
     private javax.swing.JPopupMenu jPopupMenu_Table;
@@ -3336,6 +4402,10 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane12;
+    private javax.swing.JScrollPane jScrollPane13;
+    private javax.swing.JScrollPane jScrollPane14;
+    private javax.swing.JScrollPane jScrollPane15;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -3348,18 +4418,26 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTabbedPane jTabbedPane3;
+    private javax.swing.JTabbedPane jTabbedPane4;
+    private javax.swing.JTabbedPane jTabbedPane5;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
     private javax.swing.JTable jTableU;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextArea3;
+    private javax.swing.JTextArea jTextArea4;
+    private javax.swing.JTextArea jTextArea5;
     private javax.swing.JTextArea jTextArea_DDL;
     private javax.swing.JTextArea jTextArea_SQLQuery;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jText_CHName;
     private javax.swing.JTextField jText_CName;
     private javax.swing.JPasswordField jText_Pass;
@@ -3392,4 +4470,6 @@ public class Gestor extends javax.swing.JFrame {
     String nameProcedure;
     String nameFunction;
     String nameTrigger;
+    String nameIndex;
+    String nameForeignKey;
 }
