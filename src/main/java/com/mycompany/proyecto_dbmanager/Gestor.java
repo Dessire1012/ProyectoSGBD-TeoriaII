@@ -4,6 +4,7 @@
  */
 package com.mycompany.proyecto_dbmanager;
 
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -16,6 +17,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.DefaultCellEditor;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -46,6 +48,21 @@ public class Gestor extends javax.swing.JFrame {
         jPanel4.setVisible(false);
 
         ConnectionTree();
+        
+        Image icon = new ImageIcon(this.getClass().getResource("/delfin.png")).getImage();
+        this.setIconImage(icon);
+        jFrame_Gestor.setIconImage(icon);
+        ValidarUser.setIconImage(icon);
+        NameSchema.setIconImage(icon);
+        NewTable.setIconImage(icon);
+        CambioContra.setIconImage(icon);
+        Users.setIconImage(icon);
+        Procedure.setIconImage(icon);
+        Function.setIconImage(icon);
+        View.setIconImage(icon);
+        Triggers.setIconImage(icon);
+        Index.setIconImage(icon);
+        ForeignKey.setIconImage(icon);      
 
     }
 
@@ -621,6 +638,16 @@ public class Gestor extends javax.swing.JFrame {
         CreateFunction = new javax.swing.JMenuItem();
         AlterFunction = new javax.swing.JMenuItem();
         DropFunction = new javax.swing.JMenuItem();
+        CambioContra = new javax.swing.JDialog();
+        jLabel39 = new javax.swing.JLabel();
+        jLabel40 = new javax.swing.JLabel();
+        jLabel41 = new javax.swing.JLabel();
+        jLabel42 = new javax.swing.JLabel();
+        jTextField8 = new javax.swing.JTextField();
+        jButton18 = new javax.swing.JButton();
+        jButton19 = new javax.swing.JButton();
+        jPasswordField3 = new javax.swing.JPasswordField();
+        jPasswordField4 = new javax.swing.JPasswordField();
         Users = new javax.swing.JDialog();
         jLabel16 = new javax.swing.JLabel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
@@ -1284,7 +1311,80 @@ public class Gestor extends javax.swing.JFrame {
         });
         jPopupMenu_Function.add(DropFunction);
 
-        Users.setModal(true);
+        jLabel39.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        jLabel39.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel39.setText("Edit Password");
+
+        jLabel40.setText("User:");
+
+        jLabel41.setText("New Password:");
+
+        jLabel42.setText("Confirm Password:");
+
+        jTextField8.setEditable(false);
+
+        jButton18.setText("Ok");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
+
+        jButton19.setText("Cancel");
+        jButton19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton19ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout CambioContraLayout = new javax.swing.GroupLayout(CambioContra.getContentPane());
+        CambioContra.getContentPane().setLayout(CambioContraLayout);
+        CambioContraLayout.setHorizontalGroup(
+            CambioContraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel39, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(CambioContraLayout.createSequentialGroup()
+                .addGroup(CambioContraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(CambioContraLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton18)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton19))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, CambioContraLayout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addGroup(CambioContraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel40)
+                            .addComponent(jLabel42)
+                            .addComponent(jLabel41))
+                        .addGap(59, 59, 59)
+                        .addGroup(CambioContraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField8)
+                            .addComponent(jPasswordField3)
+                            .addComponent(jPasswordField4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE))))
+                .addContainerGap(63, Short.MAX_VALUE))
+        );
+        CambioContraLayout.setVerticalGroup(
+            CambioContraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CambioContraLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jLabel39)
+                .addGap(38, 38, 38)
+                .addGroup(CambioContraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel40)
+                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(44, 44, 44)
+                .addGroup(CambioContraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jPasswordField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel41))
+                .addGap(46, 46, 46)
+                .addGroup(CambioContraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jPasswordField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel42))
+                .addGap(52, 52, 52)
+                .addGroup(CambioContraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton18)
+                    .addComponent(jButton19))
+                .addContainerGap(50, Short.MAX_VALUE))
+        );
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
         jLabel16.setText("Users and Privileges");
@@ -1506,6 +1606,11 @@ public class Gestor extends javax.swing.JFrame {
         );
 
         Edit_User.setText("Alter User");
+        Edit_User.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Edit_UserActionPerformed(evt);
+            }
+        });
         Users_crud.add(Edit_User);
 
         Drop_User.setText("Drop User");
@@ -2262,7 +2367,7 @@ public class Gestor extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(java.awt.Color.pink);
+        jPanel1.setBackground(new java.awt.Color(0, 153, 204));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 40)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -2652,6 +2757,7 @@ public class Gestor extends javax.swing.JFrame {
                                 }
 
                                 SchemasTree();
+                                usuarioIngresado = Login_User.getText();
 
                             } else if (operation.equals("edit")) {
                                 jPanel4.setVisible(true);
@@ -2755,8 +2861,8 @@ public class Gestor extends javax.swing.JFrame {
         password = "contra";
 
         try {
-            Connection connection = DriverManager.getConnection(url, user, password);
-            Statement statement = connection.createStatement();
+            connection = DriverManager.getConnection(url, user, password);
+            statement = connection.createStatement();
 
             String dropQuery = "DROP DATABASE " + dbName;
             statement.executeUpdate(dropQuery);
@@ -4179,7 +4285,7 @@ public class Gestor extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
             model.setRowCount(0);
             Index.setVisible(false);
-            
+
             statement.close();
             connection.close();
         } catch (Exception e) {
@@ -4335,12 +4441,35 @@ public class Gestor extends javax.swing.JFrame {
     private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
         jFrame_Gestor.setVisible(false);
         DefaultTableModel tableModel = (DefaultTableModel) jTable2.getModel();
-        
+
         tableModel.setRowCount(0);
         tableModel.setColumnCount(0);
 
         this.setVisible(true);
     }//GEN-LAST:event_jMenu3MouseClicked
+
+    private void Edit_UserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Edit_UserActionPerformed
+        DefaultTableModel tableModel = (DefaultTableModel) jTableU.getModel();
+        int selectedRow = jTableU.getSelectedRow();
+
+        if (tableModel.getValueAt(selectedRow, 0).equals(usuarioIngresado)) {
+            CambioContra.pack();
+            CambioContra.setLocationRelativeTo(this);
+            CambioContra.setVisible(true);
+            jTextField8.setText(usuarioIngresado);
+        }
+    }//GEN-LAST:event_Edit_UserActionPerformed
+
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+
+    }//GEN-LAST:event_jButton18ActionPerformed
+
+    private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
+        CambioContra.setVisible(false);
+        jTextField8.setText("");
+        jPasswordField4.setText("");
+        jPasswordField3.setText("");
+    }//GEN-LAST:event_jButton19ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -4393,6 +4522,7 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JMenuItem Btn_EditC;
     private javax.swing.JMenuItem Btn_NewSchema;
     private javax.swing.JMenuItem Btn_OpenC;
+    private javax.swing.JDialog CambioContra;
     private javax.swing.JButton Cancel;
     private javax.swing.JMenuItem CreateFunction;
     private javax.swing.JMenuItem CreateIndex;
@@ -4441,6 +4571,8 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton18;
+    private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton23;
@@ -4498,7 +4630,11 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -4525,6 +4661,8 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JPasswordField jPasswordField2;
+    private javax.swing.JPasswordField jPasswordField3;
+    private javax.swing.JPasswordField jPasswordField4;
     private javax.swing.JPopupMenu jPopupMenu_CCRUD;
     private javax.swing.JPopupMenu jPopupMenu_Checks;
     private javax.swing.JPopupMenu jPopupMenu_CreateConnection;
@@ -4578,6 +4716,7 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
+    private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jText_CHName;
     private javax.swing.JTextField jText_CName;
     private javax.swing.JPasswordField jText_Pass;
